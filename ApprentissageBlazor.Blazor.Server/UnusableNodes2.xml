@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application>
+  <Views Id="Views">
+    <DashboardView Id="WelcomDashbord">
+      <Items Id="Items">
+        <DashboardViewItem Id="DomainObject1" ViewId="DomainObject1_ListView_Copy" />
+      </Items>
+    </DashboardView>
+    <DashboardView Id="lookupComponent">
+      <Items Id="Items">
+        <DashboardViewItem Id="Domaine object" ViewId="DomainObject1_ListView_Copy" Caption="Domaine object" />
+      </Items>
+    </DashboardView>
+    <DashboardView Id="GridFilter">
+      <Items Id="Items">
+        <DashboardViewItem Id="DomainObject" ViewId="DomainObject1_ListView_Copy" Caption="DomainObject" />
+      </Items>
+    </DashboardView>
+  </Views>
+</Application>

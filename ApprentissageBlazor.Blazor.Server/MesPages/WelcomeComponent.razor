@@ -7,23 +7,22 @@
 
 <br />
 <DxComboBox Data="@DomaineObjs"
-            TextFieldName="@nameof(DomainObject1.PersistentProperty)"
+            TextFieldName="@nameof(DomainObject1.FullName)"
             @bind-Value="@SelectedEmployee"
-            CssClass="cw-480" 
-
+            CssClass="cw-480"
             FilteringMode="DataGridFilteringMode.Contains"
-            EditFormat="{0} {1}" >
-            
-            <Columns>
-        
-        <DxListEditorColumn FieldName="@nameof(DomainObject1.PersistentProperty)"
+            EditFormat="{0} {1}">
+
+    <Columns>
+
+        <DxListEditorColumn FieldName="@nameof(DomainObject1.FirstName)"
                             Caption="Name" />
-        <DxListEditorColumn FieldName="@nameof(DomainObject1.PersistentProperty2)"
+        <DxListEditorColumn FieldName="@nameof(DomainObject1.LastName)"
                             Caption="Surname" />
     </Columns>
 </DxComboBox>
 <p class="demo-text cw-480 mt-2">
-    Selected item: { FirstName=<b>@SelectedEmployee?.PersistentProperty</b>}
+    Selected item: { PhoneNumber=<b>@SelectedEmployee?.PhoneNumber</b>}
 </p>
 
 

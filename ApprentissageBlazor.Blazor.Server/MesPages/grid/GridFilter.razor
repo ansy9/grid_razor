@@ -1,0 +1,71 @@
+﻿@using ApprentissageBlazor.Module.BusinessObjects
+
+
+<style>
+    .main-toolbar {
+        display: none;
+    }
+</style>
+
+<br />
+<p class="demo-text cw-480 mt-2">
+    <h2>Article Stock</h2>
+</p>
+<br />
+<div class="d-flex flex-row cw-480">
+
+<DxComboBox Data="@DomaineObjsFirstName"
+            TextFieldName="@nameof(DomainObject1.FirstName)"
+            @bind-Value="@SelectedFirstName"
+            CssClass="cw-480"
+/>
+
+<DxComboBox Data="@DomaineObjsLastName"
+            TextFieldName="@nameof(DomainObject1.LastName)"
+            @bind-Value="@SelectedLastName"
+            CssClass="cw-480"/>
+
+</div>
+
+
+<br />
+
+
+<DxGrid Data="@Data">
+    <Columns>
+        <DxGridDataColumn FieldName="FirstName" DisplayFormat="D" MinWidth="100" />
+        <DxGridDataColumn FieldName="LastName" Width="15%" />
+        <DxGridDataColumn FieldName="Age" Width="15%" />
+        <DxGridDataColumn FieldName="BirthDay"  Width="10%" />
+        <DxGridDataColumn FieldName="PhoneNumber"  Width="10%" />
+    </Columns>
+</DxGrid>
+
+
+
+@code {
+
+    //[CascadingParameterAttribute]
+    [ParameterAttribute]
+    public IEnumerable<DomainObject1> DomaineObjsFirstName { get; set; }
+    public DomainObject1 SelectedFirstName { get; set; }
+
+    //[CascadingParameterAttribute]
+    [ParameterAttribute]
+    public IEnumerable<DomainObject1> DomaineObjsLastName { get; set; }
+    public DomainObject1 SelectedLastName { get; set; }
+
+    [ParameterAttribute]
+    public object Data { get; set; }
+   
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        SelectedFirstName = DomaineObjsFirstName?.FirstOrDefault();
+        SelectedLastName = DomaineObjsLastName?.FirstOrDefault();
+    }
+
+
+    
+
+}

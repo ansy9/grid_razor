@@ -19,18 +19,51 @@ namespace ApprentissageBlazor.Module.BusinessObjects
             base.AfterConstruction();
             // Place your initialization code here (https://documentation.devexpress.com/eXpressAppFramework/CustomDocument112834.aspx).
         }
-        private string _PersistentProperty;
-        public string PersistentProperty
+        string fullName;
+        string age;
+        string number;
+        DateTime birthDay;
+
+
+        private string _FirstName;
+        public string FirstName
         {
-            get { return _PersistentProperty; }
-            set { SetPropertyValue(nameof(PersistentProperty), ref _PersistentProperty, value); }
+            get { return _FirstName; }
+            set { SetPropertyValue(nameof(FirstName), ref _FirstName, value); }
         }
 
-        private string _PersistentProperty2;
-        public string PersistentProperty2
+        private string _LastName;
+        public string LastName
         {
-            get { return _PersistentProperty2; }
-            set { SetPropertyValue(nameof(PersistentProperty2), ref _PersistentProperty2, value); }
+            get { return _LastName; }
+            set { SetPropertyValue(nameof(LastName), ref _LastName, value); }
         }
+
+        
+        public string FullName
+        {
+            get => FirstName + " " + LastName;
+        }
+
+        public DateTime BirthDay
+        {
+            get => birthDay;
+            set => SetPropertyValue(nameof(BirthDay), ref birthDay, value);
+        }
+
+        
+        public string Age
+        {
+            get => (DateTime.Now.Year - BirthDay.Year).ToString();
+        }
+
+
+        public string PhoneNumber
+        {
+            get => number;
+            set => SetPropertyValue(nameof(PhoneNumber), ref number, value);
+        }
+
+
     }
 }
