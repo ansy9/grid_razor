@@ -1,0 +1,40 @@
+﻿@using ApprentissageBlazor.Module.BusinessObjects
+<style>
+    .main-toolbar {
+        display: none;
+    }
+</style>
+
+<br />
+<DxComboBox Data="@DomaineObjs"
+            TextFieldName="@nameof(DomainObject1.PersistentProperty)"
+            @bind-Value="@SelectedEmployee"
+            CssClass="cw-480" 
+
+            FilteringMode="DataGridFilteringMode.Contains"
+            EditFormat="{0} {1}" >
+            
+            <Columns>
+        
+        <DxListEditorColumn FieldName="@nameof(DomainObject1.PersistentProperty)"
+                            Caption="Name" />
+        <DxListEditorColumn FieldName="@nameof(DomainObject1.PersistentProperty2)"
+                            Caption="Surname" />
+    </Columns>
+</DxComboBox>
+<p class="demo-text cw-480 mt-2">
+    Selected item: { FirstName=<b>@SelectedEmployee?.PersistentProperty</b>}
+</p>
+
+
+
+@code {
+    [Parameter]
+    public IEnumerable<DomainObject1> DomaineObjs { get; set; }
+    public DomainObject1 SelectedEmployee { get; set; }
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        SelectedEmployee = DomaineObjs?.FirstOrDefault();
+    }
+}

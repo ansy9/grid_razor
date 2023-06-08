@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application>
+  <NavigationItems NavigationStyle="Accordion">
+    <Items>
+      <Item Id="Default">
+        <Items>
+          <Item Id="WelcomDashbord" Caption="WelcomDashbord" ViewId="WelcomDashbord" IsNewNode="True" />
+        </Items>
+      </Item>
+    </Items>
+  </NavigationItems>
+  <SchemaModules>
+    <SchemaModule Name="CloneObjectModule" Version="22.2.6.0" IsNewNode="True" />
+    <SchemaModule Name="SystemModule" Version="22.2.6.0" IsNewNode="True" />
+  </SchemaModules>
+  <Views DefaultListEditor="DevExpress.ExpressApp.Blazor.Editors.DxGridListEditor">
+    <ListView Id="DomainObject1_ListView_Copy" ClassName="ApprentissageBlazor.Module.BusinessObjects.DomainObject1" AllowDelete="False" AllowNew="False" IsNewNode="True">
+      <Columns IsNewNode="True">
+        <ColumnInfo Id="Oid" PropertyName="Oid" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="PersistentProperty" PropertyName="PersistentProperty" Index="0" IsNewNode="True" />
+      </Columns>
+    </ListView>
+    <DashboardView Id="lookupComponent" AllowDelete="False" AllowNew="False" EnableLayoutGroupImages="False" IsNewNode="True">
+      <Items IsNewNode="True">
+        <ControlDetailItem Id="Adapter" ControlTypeName="ApprentissageBlazor.Blazor.Server.MesPages.WelcomeComponentAdapter" Caption="Adapter" IsNewNode="True" />
+        <DashboardViewItem Id="Domaine object" ViewId="DomainObject1_ListView_Copy" Caption="Domaine object" IsNewNode="True" />
+      </Items>
+      <Layout IsNewNode="True">
+        <LayoutGroup Id="Main" ShowCaption="False" Direction="Vertical" Index="0" RelativeSize="100" Caption="Adapter" IsNewNode="True">
+          <LayoutItem Id="Adapter" ViewItem="Adapter" Index="0" RelativeSize="5.673758865248227" IsNewNode="True" />
+          <LayoutItem Id="Domaine object" ViewItem="Domaine object" Index="1" RelativeSize="94.32624113475177" IsNewNode="True" />
+        </LayoutGroup>
+      </Layout>
+    </DashboardView>
+    <DashboardView Id="WelcomDashbord" Caption="WelcomDashbord" AllowDelete="False" AllowNew="False" EnableLayoutGroupImages="False" IsNewNode="True">
+      <Items IsNewNode="True">
+        <DashboardViewItem Id="DomainObject1" ViewId="DomainObject1_ListView_Copy" IsNewNode="True" />
+        <ControlDetailItem Id="WelcomeComponentAdapterDI" ControlTypeName="ApprentissageBlazor.Blazor.Server.MesPages.WelcomeComponentAdapter" Caption="" IsNewNode="True" />
+      </Items>
+      <Layout IsNewNode="True">
+        <LayoutGroup Id="Main" ShowCaption="False" Direction="Vertical" Index="0" RelativeSize="100" Caption="Main" IsNewNode="True">
+          <LayoutItem Id="WelcomeComponentAdapterDI" ViewItem="WelcomeComponentAdapterDI" Index="0" RelativeSize="5.673758865248227" ShowCaption="False" IsNewNode="True" />
+          <LayoutItem Id="DomainObject1" ViewItem="DomainObject1" Index="1" RelativeSize="94.32624113475177" IsNewNode="True" />
+        </LayoutGroup>
+      </Layout>
+    </DashboardView>
+  </Views>
+</Application>
