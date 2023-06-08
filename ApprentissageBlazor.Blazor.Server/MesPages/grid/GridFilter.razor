@@ -41,7 +41,9 @@
 <br />
 
 
-<DxGrid Data="@Data">
+<DxGrid Data="@Data"
+        ShowSearchBox="true"
+        SearchTextParseMode="CurrentSearchTextParseMode">
     <Columns>
         <DxGridDataColumn FieldName="FirstName" DisplayFormat="D" MinWidth="100" />
         <DxGridDataColumn FieldName="LastName" Width="15%" />
@@ -55,6 +57,7 @@
 
 @code {
     ButtonRenderStyle btnStyles;
+    GridSearchTextParseMode CurrentSearchTextParseMode { get; set; } = GridSearchTextParseMode.GroupWordsByAnd;
 
     //[CascadingParameterAttribute]
     [ParameterAttribute]
