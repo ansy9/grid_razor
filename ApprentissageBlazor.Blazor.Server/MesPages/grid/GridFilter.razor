@@ -1,4 +1,6 @@
 ﻿@using ApprentissageBlazor.Module.BusinessObjects
+@using DevExpress.ExpressApp;
+@inject IJSRuntime JSRuntime
 
 
 <style>
@@ -14,17 +16,25 @@
 <br />
 <div class="d-flex flex-row cw-480">
 
-<DxComboBox Data="@DomaineObjsFirstName"
-            TextFieldName="@nameof(DomainObject1.FirstName)"
-            @bind-Value="@SelectedFirstName"
-            CssClass="cw-480"
-/>
+    <DxComboBox Data="@DomaineObjsFirstName"
+                TextFieldName="@nameof(DomainObject1.FirstName)"
+                @bind-Value="@SelectedFirstName"
+                CssClass="cw-480" 
+                ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
 
-<DxComboBox Data="@DomaineObjsLastName"
-            TextFieldName="@nameof(DomainObject1.LastName)"
-            @bind-Value="@SelectedLastName"
-            CssClass="cw-480"/>
+    <DxComboBox Data="@DomaineObjsLastName"
+                TextFieldName="@nameof(DomainObject1.LastName)"
+                @bind-Value="@SelectedLastName"
+                CssClass="cw-480" 
+                ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
 
+    <div class="me-2 mb-2">
+        <DxButton RenderStyle="@btnStyles"
+                  Text="Recherche"
+                  
+                  CssClass="w-100"
+                  Click="@(_ => OnButtonClick())" />
+    </div>
 </div>
 
 
@@ -36,14 +46,15 @@
         <DxGridDataColumn FieldName="FirstName" DisplayFormat="D" MinWidth="100" />
         <DxGridDataColumn FieldName="LastName" Width="15%" />
         <DxGridDataColumn FieldName="Age" Width="15%" />
-        <DxGridDataColumn FieldName="BirthDay"  Width="10%" />
-        <DxGridDataColumn FieldName="PhoneNumber"  Width="10%" />
+        <DxGridDataColumn FieldName="BirthDay" Width="10%" />
+        <DxGridDataColumn FieldName="PhoneNumber" Width="10%" />
     </Columns>
 </DxGrid>
 
 
 
 @code {
+    ButtonRenderStyle btnStyles;
 
     //[CascadingParameterAttribute]
     [ParameterAttribute]
@@ -57,15 +68,22 @@
 
     [ParameterAttribute]
     public object Data { get; set; }
-   
+
+    [ParameterAttribute]
+    public IObjectSpace objectSpace { get; set; }
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
         SelectedFirstName = DomaineObjsFirstName?.FirstOrDefault();
         SelectedLastName = DomaineObjsLastName?.FirstOrDefault();
+        btnStyles = ButtonRenderStyle.Primary;
     }
-
-
-    
-
+    void OnButtonClick()
+    {
+        string FirstName = this.SelectedFirstName?.FirstName;
+        string LastName = this.SelectedLastName?.LastName;
+        
+        Data = objectSpace.GetObjects<DomainObject1>().Where(x => x.FirstName == FirstName && x.LastName == LastName);
+    }
 }

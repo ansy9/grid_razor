@@ -34,7 +34,7 @@ namespace ApprentissageBlazor.Blazor.Server.MesPages.grid
                         builder.OpenComponent<GridFilter>(0);
                         builder.AddAttribute(1, nameof(GridFilter.DomaineObjsFirstName), domainObjectsFirstName);
                         builder.AddAttribute(2, nameof(GridFilter.DomaineObjsLastName), domainObjectsLastName);
-                        builder.AddAttribute(3, nameof(GridFilter.Data), objectToShowLastName);
+                        builder.AddAttribute(3, nameof(GridFilter.objectSpace), ObjSpaceLastName);
 
                         builder.CloseComponent();
                     };
