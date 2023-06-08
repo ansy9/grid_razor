@@ -1,4 +1,5 @@
 ﻿@using ApprentissageBlazor.Module.BusinessObjects
+@using DevExpress.Data.Filtering;
 @using DevExpress.ExpressApp;
 @inject IJSRuntime JSRuntime
 
@@ -19,19 +20,18 @@
     <DxComboBox Data="@DomaineObjsFirstName"
                 TextFieldName="@nameof(DomainObject1.FirstName)"
                 @bind-Value="@SelectedFirstName"
-                CssClass="cw-480" 
+                CssClass="cw-480"
                 ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
 
     <DxComboBox Data="@DomaineObjsLastName"
                 TextFieldName="@nameof(DomainObject1.LastName)"
                 @bind-Value="@SelectedLastName"
-                CssClass="cw-480" 
+                CssClass="cw-480"
                 ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
 
     <div class="me-2 mb-2">
         <DxButton RenderStyle="@btnStyles"
                   Text="Recherche"
-                  
                   CssClass="w-100"
                   Click="@(_ => OnButtonClick())" />
     </div>
@@ -83,7 +83,44 @@
     {
         string FirstName = this.SelectedFirstName?.FirstName;
         string LastName = this.SelectedLastName?.LastName;
-        
-        Data = objectSpace.GetObjects<DomainObject1>().Where(x => x.FirstName == FirstName && x.LastName == LastName);
+        //CriteriaOperator personCriteria = null;
+
+        //if (LastName != null && LastName != "")
+        //{
+        //    personCriteria = CriteriaOperator.Parse($"Contains([{nameof(LastName)}], ?)", LastName);
+        //}
+
+
+        //if (FirstName != null && FirstName != "")
+        //{
+        //    personCriteria = personCriteria + CriteriaOperator.Parse($"Contains([{nameof(FirstName)}], ?)", FirstName);
+
+        //}
+
+        CriteriaOperator personCriteria = null;
+
+        if (!string.IsNullOrEmpty(LastName))
+        {
+            personCriteria = new BinaryOperator(nameof(DomainObject1.LastName), LastName, BinaryOperatorType.Equal);
+        }
+
+        if (!string.IsNullOrEmpty(FirstName))
+        {
+            CriteriaOperator firstNameCriteria = new BinaryOperator(nameof(DomainObject1.FirstName), FirstName, BinaryOperatorType.Equal);
+
+            if (personCriteria == null)
+            {
+                personCriteria = firstNameCriteria;
+            }
+            else
+            {
+                personCriteria &= firstNameCriteria;
+            }
+        }
+
+        Data = objectSpace.GetObjects<DomainObject1>(personCriteria);
+
+        //Data = objectSpace.GetObjects<DomainObject1>().Where(x => x.LastName == LastName && x.FirstName == FirstName);
+        //Data = objectSpace.GetObjects<DomainObject1>(personCriteria);
     }
 }
