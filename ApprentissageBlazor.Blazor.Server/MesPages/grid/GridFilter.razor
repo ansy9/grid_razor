@@ -83,19 +83,7 @@
     {
         string FirstName = this.SelectedFirstName?.FirstName;
         string LastName = this.SelectedLastName?.LastName;
-        //CriteriaOperator personCriteria = null;
 
-        //if (LastName != null && LastName != "")
-        //{
-        //    personCriteria = CriteriaOperator.Parse($"Contains([{nameof(LastName)}], ?)", LastName);
-        //}
-
-
-        //if (FirstName != null && FirstName != "")
-        //{
-        //    personCriteria = personCriteria + CriteriaOperator.Parse($"Contains([{nameof(FirstName)}], ?)", FirstName);
-
-        //}
 
         CriteriaOperator personCriteria = null;
 
@@ -108,7 +96,7 @@
         {
             CriteriaOperator firstNameCriteria = new BinaryOperator(nameof(DomainObject1.FirstName), FirstName, BinaryOperatorType.Equal);
 
-            if (personCriteria == null)
+            if (personCriteria is null)
             {
                 personCriteria = firstNameCriteria;
             }
@@ -119,8 +107,5 @@
         }
 
         Data = objectSpace.GetObjects<DomainObject1>(personCriteria);
-
-        //Data = objectSpace.GetObjects<DomainObject1>().Where(x => x.LastName == LastName && x.FirstName == FirstName);
-        //Data = objectSpace.GetObjects<DomainObject1>(personCriteria);
     }
 }
