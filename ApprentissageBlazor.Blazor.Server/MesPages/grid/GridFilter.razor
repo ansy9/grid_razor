@@ -16,18 +16,60 @@
 </p>
 <br />
 <div class="d-flex flex-row cw-480">
+    <div class="me-2 mb-2">
+        @{
+            foreach (DashboardFilter_Details DashboradItem in dashBordFilters)
+            {
+                <div>
+                    <span>@DashboradItem.ChampsName</span>
+                    @{
+                        if (DashboradItem.Type == "Lookup")
+                        {
+                            <DxComboBox Data="@DomaineObjsFirstName"
+                        TextFieldName="@DashboradItem.ChampsName"
+                                @bind-Value="@SelectedFirstName"
+                        CssClass="cw-480"
+                        ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
+                        }
+                    }
+                    @{
+                        if (DashboradItem.Type == "bool")
+                        {
+                            <DxCheckBox CheckType="CheckType.Switch"
+                        LabelPosition="LabelPosition.Left"
+                        Checked="@SilentMode"
+                        CheckedChanged="@((bool t) => CheckedChanged(t))"
+                        Alignment="CheckBoxContentAlignment.SpaceBetween">
+                                Silent Mode
+                            </DxCheckBox>
+                        }
+                    }
+                    @{
+                        if (DashboradItem.Type == "Date")
+                        {
+                            <DxDateEdit @bind-Date="@DateTimeValue"
+                        CssClass="cw-320" />
+                            <p class="demo-text cw-320 mt-2">
+                                Date: <b>@DateTimeValue.ToString("dddd, dd MMMM yyyy")</b>
+                            </p>
+                        }
+                    }
+                </div>
+            }
+        }
+    </div>
 
-    <DxComboBox Data="@DomaineObjsFirstName"
+    <!-- <DxComboBox Data="@DomaineObjsFirstName"
                 TextFieldName="@nameof(DomainObject1.FirstName)"
-                @bind-Value="@SelectedFirstName"
+    @bind-Value="@SelectedFirstName"
                 CssClass="cw-480"
                 ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
 
     <DxComboBox Data="@DomaineObjsLastName"
                 TextFieldName="@nameof(DomainObject1.LastName)"
-                @bind-Value="@SelectedLastName"
+    @bind-Value="@SelectedLastName"
                 CssClass="cw-480"
-                ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
+                ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />-->
 
     <div class="me-2 mb-2">
         <DxButton RenderStyle="@btnStyles"
@@ -56,8 +98,17 @@
 
 
 @code {
+
     ButtonRenderStyle btnStyles;
     GridSearchTextParseMode CurrentSearchTextParseMode { get; set; } = GridSearchTextParseMode.GroupWordsByAnd;
+
+    [ParameterAttribute]
+    public bool Sound { get; set; } = true;
+    [ParameterAttribute]
+    public bool Enabled { get; set; } = false;
+    [ParameterAttribute]
+    public bool SilentMode { get; set; } = true;
+
 
     //[CascadingParameterAttribute]
     [ParameterAttribute]
@@ -75,12 +126,23 @@
     [ParameterAttribute]
     public IObjectSpace objectSpace { get; set; }
 
+    [ParameterAttribute]
+    public IList<DashboardFilter_Details> dashBordFilters { get; set; }
+
+    DateTime DateTimeValue { get; set; } = DateTime.Now;
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
         SelectedFirstName = DomaineObjsFirstName?.FirstOrDefault();
         SelectedLastName = DomaineObjsLastName?.FirstOrDefault();
         btnStyles = ButtonRenderStyle.Primary;
+
+    }
+    void CheckedChanged(bool value)
+    {
+        SilentMode = value;
+        Enabled = !value;
     }
     void OnButtonClick()
     {

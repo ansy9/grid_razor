@@ -26,6 +26,7 @@ namespace ApprentissageBlazor.Blazor.Server.MesPages.grid
                     IList<DomainObject1> objectToShowLastName = ObjSpaceLastName.GetObjects<DomainObject1>();
                     IEnumerable<DomainObject1> domainObjectsLastName = objectToShowLastName.AsEnumerable();
 
+                    IList<DashboardFilter_Details> dashBordFilters = ObjSpaceLastName.GetObjects<DashboardFilter_Details>();
 
                     ObjSpaceFirstName.CommitChanges();
                     ObjSpaceLastName.CommitChanges();
@@ -35,6 +36,7 @@ namespace ApprentissageBlazor.Blazor.Server.MesPages.grid
                         builder.AddAttribute(1, nameof(GridFilter.DomaineObjsFirstName), domainObjectsFirstName);
                         builder.AddAttribute(2, nameof(GridFilter.DomaineObjsLastName), domainObjectsLastName);
                         builder.AddAttribute(3, nameof(GridFilter.objectSpace), ObjSpaceLastName);
+                        builder.AddAttribute(4, nameof(GridFilter.dashBordFilters), dashBordFilters);
 
                         builder.CloseComponent();
                     };
