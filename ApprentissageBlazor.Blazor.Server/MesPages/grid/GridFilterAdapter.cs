@@ -26,15 +26,21 @@ namespace ApprentissageBlazor.Blazor.Server.MesPages.grid
                     IList<DomainObject1> objectToShowLastName = ObjSpaceLastName.GetObjects<DomainObject1>();
                     IEnumerable<DomainObject1> domainObjectsLastName = objectToShowLastName.AsEnumerable();
 
+                    IObjectSpace ObjSpaceFullName = this.application.CreateObjectSpace(typeof(DomainObject1));
+                    IList<DomainObject1> objectToShowFullName = ObjSpaceFullName.GetObjects<DomainObject1>();
+                    IEnumerable<DomainObject1> domainObjectsFullName = objectToShowLastName.AsEnumerable();
+
 
                     ObjSpaceFirstName.CommitChanges();
                     ObjSpaceLastName.CommitChanges();
+                    ObjSpaceFullName.CommitChanges();
 
                     component = builder => {
                         builder.OpenComponent<GridFilter>(0);
                         builder.AddAttribute(1, nameof(GridFilter.DomaineObjsFirstName), domainObjectsFirstName);
                         builder.AddAttribute(2, nameof(GridFilter.DomaineObjsLastName), domainObjectsLastName);
-                        builder.AddAttribute(3, nameof(GridFilter.objectSpace), ObjSpaceLastName);
+                        builder.AddAttribute(3, nameof(GridFilter.DomaineObjsFullName), domainObjectsFullName);
+                        builder.AddAttribute(4, nameof(GridFilter.objectSpace), ObjSpaceLastName);
 
                         builder.CloseComponent();
                     };

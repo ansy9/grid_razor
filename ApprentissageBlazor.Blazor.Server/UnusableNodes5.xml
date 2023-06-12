@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application>
+  <Views Id="Views">
+    <DashboardView Id="WelcomDashbord">
+      <Layout Id="Layout">
+        <LayoutGroup Id="Main">
+          <LayoutItem Id="DomainObject1" ViewItem="DomainObject1" />
+        </LayoutGroup>
+      </Layout>
+    </DashboardView>
+    <DashboardView Id="lookupComponent">
+      <Layout Id="Layout">
+        <LayoutGroup Id="Main">
+          <LayoutItem Id="Domaine object" ViewItem="Domaine object" />
+        </LayoutGroup>
+      </Layout>
+    </DashboardView>
+    <DashboardView Id="GridFilter">
+      <Layout Id="Layout">
+        <LayoutItem Id="DomainObjectGrid" ViewItem="DomainObjectGrid" />
+      </Layout>
+    </DashboardView>
+  </Views>
+  <NavigationItems Id="NavigationItems">
+    <Items Id="Items">
+      <Item Id="Default">
+        <Items Id="Items">
+          <Item Id="Classe Employes" ViewId="Classe Employes" />
+        </Items>
+      </Item>
+    </Items>
+  </NavigationItems>
+</Application>

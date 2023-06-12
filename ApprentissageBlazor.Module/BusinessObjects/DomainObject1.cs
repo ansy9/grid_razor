@@ -1,11 +1,12 @@
 ﻿using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Xpo;
+using System.ComponentModel;
 
 namespace ApprentissageBlazor.Module.BusinessObjects
 {
     [DefaultClassOptions]
-    
+    [DefaultProperty(nameof(FullName))]
     public class DomainObject1 : BaseObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (https://documentation.devexpress.com/eXpressAppFramework/CustomDocument113146.aspx).
         // Use CodeRush to create XPO classes and properties with a few keystrokes.
@@ -19,6 +20,7 @@ namespace ApprentissageBlazor.Module.BusinessObjects
             base.AfterConstruction();
             // Place your initialization code here (https://documentation.devexpress.com/eXpressAppFramework/CustomDocument112834.aspx).
         }
+        Classe classe;
         string fullName;
         string age;
         string number;
@@ -39,7 +41,7 @@ namespace ApprentissageBlazor.Module.BusinessObjects
             set { SetPropertyValue(nameof(LastName), ref _LastName, value); }
         }
 
-        
+
         public string FullName
         {
             get => FirstName + " " + LastName;
@@ -51,7 +53,7 @@ namespace ApprentissageBlazor.Module.BusinessObjects
             set => SetPropertyValue(nameof(BirthDay), ref birthDay, value);
         }
 
-        
+
         public string Age
         {
             get => (DateTime.Now.Year - BirthDay.Year).ToString();
@@ -62,6 +64,15 @@ namespace ApprentissageBlazor.Module.BusinessObjects
         {
             get => number;
             set => SetPropertyValue(nameof(PhoneNumber), ref number, value);
+        }
+
+
+        
+        [Association("Classe-DomainObjects")]
+        public Classe Classe
+        {
+            get => classe;
+            set => SetPropertyValue(nameof(Classe), ref classe, value);
         }
 
 

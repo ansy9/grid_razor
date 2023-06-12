@@ -4,6 +4,7 @@
     <Items>
       <Item Id="Default">
         <Items>
+          <Item Id="Classe Employes" ViewId="ClasseEmployes" IsNewNode="True" />
           <Item Id="GridDashbord" Caption="GridDashbord" ViewId="GridFilter" IsNewNode="True" />
           <Item Id="WelcomDashbord" Caption="WelcomDashbord" ViewId="WelcomDashbord" IsNewNode="True" />
         </Items>
@@ -11,10 +12,20 @@
     </Items>
   </NavigationItems>
   <SchemaModules>
-    <SchemaModule Name="CloneObjectModule" Version="22.2.3.0" IsNewNode="True" />
-    <SchemaModule Name="SystemModule" Version="22.2.3.0" IsNewNode="True" />
+    <SchemaModule Name="CloneObjectModule" Version="22.2.6.0" IsNewNode="True" />
+    <SchemaModule Name="SystemModule" Version="22.2.6.0" IsNewNode="True" />
   </SchemaModules>
   <Views DefaultListEditor="DevExpress.ExpressApp.Blazor.Editors.DxGridListEditor">
+    <DashboardView Id="ClasseEmployes" Caption="Classe Employés" AllowDelete="False" AllowNew="False" EnableLayoutGroupImages="False" IsNewNode="True">
+      <Items IsNewNode="True">
+        <ControlDetailItem Id="ClasseEmployesAdapter" ControlTypeName="          ApprentissageBlazor.Blazor.Server.MesPages.GridCrossObjects.GridFilterCrossObjectsAdapter" IsNewNode="True" />
+      </Items>
+      <Layout IsNewNode="True">
+        <LayoutGroup Id="Main" IsNewNode="True">
+          <LayoutItem Id="ClasseEmployes" ViewItem="ClasseEmployesAdapter" Index="0" IsNewNode="True" />
+        </LayoutGroup>
+      </Layout>
+    </DashboardView>
     <ListView Id="DomainObject1_ListView_Copy" ClassName="ApprentissageBlazor.Module.BusinessObjects.DomainObject1" AllowDelete="False" AllowLink="False" AllowNew="False" IsNewNode="True">
       <Columns IsNewNode="True">
         <ColumnInfo Id="Oid" PropertyName="Oid" Index="-1" IsNewNode="True" />

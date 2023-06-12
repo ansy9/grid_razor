@@ -29,6 +29,12 @@
                 CssClass="cw-480"
                 ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
 
+    <DxComboBox Data="@DomaineObjsFullName"
+                TextFieldName="@nameof(DomainObject1.FullName)"
+    @bind-Value="@SelectedFullName"
+                CssClass="cw-480"
+                ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
+
     <div class="me-2 mb-2">
         <DxButton RenderStyle="@btnStyles"
                   Text="Recherche"
@@ -47,6 +53,7 @@
     <Columns>
         <DxGridDataColumn FieldName="FirstName" DisplayFormat="D" MinWidth="100" />
         <DxGridDataColumn FieldName="LastName" Width="15%" />
+        <DxGridDataColumn FieldName="FullName" Width="15%" />
         <DxGridDataColumn FieldName="Age" Width="15%" />
         <DxGridDataColumn FieldName="BirthDay" Width="10%" />
         <DxGridDataColumn FieldName="PhoneNumber" Width="10%" />
@@ -70,6 +77,10 @@
     public DomainObject1 SelectedLastName { get; set; }
 
     [ParameterAttribute]
+    public IEnumerable<DomainObject1> DomaineObjsFullName { get; set; }
+    public DomainObject1 SelectedFullName { get; set; }
+
+    [ParameterAttribute]
     public object Data { get; set; }
 
     [ParameterAttribute]
@@ -86,6 +97,7 @@
     {
         string FirstName = this.SelectedFirstName?.FirstName;
         string LastName = this.SelectedLastName?.LastName;
+        string FullName = this.SelectedFullName?.FullName;
 
 
         CriteriaOperator personCriteria = null;

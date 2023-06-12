@@ -1,0 +1,110 @@
+﻿@using ApprentissageBlazor.Module.BusinessObjects
+@using DevExpress.Data.Filtering;
+@using DevExpress.ExpressApp;
+@using DevExpress.ExpressApp.Xpo;
+
+<style>
+    .main-toolbar {
+        display: none;
+    }
+</style>
+
+<br />
+
+<div class="d-flex flex-row cw-480">
+    <DxComboBox Data="@DomaineObjsFullName"
+                TextFieldName="@nameof(DomainObject1.FullName)"
+    @bind-Value="@SelectedFullName"
+                CssClass="cw-480"
+                ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
+
+    <DxComboBox Data="@DomaineObjsClassName"
+                TextFieldName="@nameof(Classe.ClassName)"
+    @bind-Value="@SelectedClassName"
+                CssClass="cw-480"
+                ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
+
+    <div class="me-2 mb-2">
+        <DxButton RenderStyle="@btnStyles"
+                  Text="Recherche"
+                  CssClass="w-100"
+                  Click="@(_ => OnButtonClick())" />
+    </div>
+</div>
+
+<br />
+
+<DxGrid Data="@Data"
+        ShowSearchBox="true"
+        SearchTextParseMode="CurrentSearchTextParseMode">
+    <Columns>
+        <DxGridDataColumn FieldName="FirstName" DisplayFormat="D" MinWidth="100" />
+        <DxGridDataColumn FieldName="LastName" Width="15%" />
+        <DxGridDataColumn FieldName="FullName" Width="15%" />
+        <DxGridDataColumn FieldName="Age" Width="15%" />
+        <DxGridDataColumn FieldName="BirthDay" Width="10%" />
+        <DxGridDataColumn FieldName="PhoneNumber" Width="10%" />
+        <DxGridDataColumn FieldName="Classe.ClassName" Width="10%" />
+    </Columns>
+</DxGrid>
+
+@code {
+    ButtonRenderStyle btnStyles;
+    GridSearchTextParseMode CurrentSearchTextParseMode { get; set; } = GridSearchTextParseMode.GroupWordsByAnd;
+
+    [ParameterAttribute]
+    public IEnumerable<DomainObject1> DomaineObjsFullName { get; set; }
+    public DomainObject1 SelectedFullName { get; set; }
+
+    [ParameterAttribute]
+    public IEnumerable<Classe> DomaineObjsClassName { get; set; }
+    public Classe SelectedClassName { get; set; }
+
+    [ParameterAttribute]
+    public object Data { get; set; }
+
+    [ParameterAttribute]
+    public IObjectSpace objectSpaceDomainObjects { get; set; }
+
+
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        SelectedFullName = DomaineObjsFullName?.FirstOrDefault();
+        SelectedClassName = DomaineObjsClassName?.FirstOrDefault();
+        btnStyles = ButtonRenderStyle.Primary;
+    }
+
+    void OnButtonClick()
+    {
+
+        string FullName = this.SelectedFullName?.FullName;
+
+
+        CriteriaOperator personClassCriteria = null;
+
+        if (!string.IsNullOrEmpty(FullName))
+        {
+            personClassCriteria = new BinaryOperator(nameof(DomainObject1.FullName), FullName, BinaryOperatorType.Equal);
+        }
+
+        if (SelectedClassName != null)
+        {
+            CriteriaOperator classNameCriteria = new BinaryOperator(nameof(DomainObject1.Classe), SelectedClassName, BinaryOperatorType.Equal);
+
+            if (personClassCriteria is null)
+            {
+                personClassCriteria = classNameCriteria;
+            }
+            else
+            {
+                personClassCriteria &= classNameCriteria;
+            }
+        }
+
+
+        
+            Data = objectSpaceDomainObjects.GetObjects<DomainObject1>(personClassCriteria).ToList();
+    }
+}
