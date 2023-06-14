@@ -14,23 +14,54 @@
 <div class="d-flex flex-row cw-480">
     <DxComboBox Data="@DomaineObjsFullName"
                 TextFieldName="@nameof(DomainObject1.FullName)"
-    @bind-Value="@SelectedFullName"
+                @bind-Value="@SelectedFullName"
                 CssClass="cw-480"
-                ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
+                ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Never" />
 
     <DxComboBox Data="@DomaineObjsClassName"
                 TextFieldName="@nameof(Classe.ClassName)"
-    @bind-Value="@SelectedClassName"
+                @bind-Value="@SelectedClassName"
                 CssClass="cw-480"
-                ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" />
+                ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Never" />
 
     <div class="me-2 mb-2">
         <DxButton RenderStyle="@btnStyles"
-                  Text="Recherche"
+                  Text="Simuler"
                   CssClass="w-100"
-                  Click="@(_ => OnButtonClick())" />
+                  Enabled=@simEnable
+                  Click="@(_ => {OnButtonClickSimulation();EulaVisibleSimulation = true;})" />
+    </div>
+
+    <div class="me-2 mb-2">
+        <DxButton RenderStyle="@btnStyles"
+                  Text="Créer"
+                  CssClass="w-100"
+                  Enabled=@creerEnable
+                  Click="@(_ => {OnButtonClickCreation();EulaVisibleCreationAsk = true;})" />
     </div>
 </div>
+
+<br />
+
+<div class="d-flex flex-row cw-480">
+    <DxComboBox Data="@DomaineObjsFirstNameStart.OrderBy(x => x.FirstName)"
+                TextFieldName="@nameof(DomainObject1.FirstName)"
+                AllowUserInput=false
+                CssClass="cw-480"
+                ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Never"
+                
+                @bind-Value="@SelectedFirstNameStart" />
+
+    <DxComboBox Data="@DomaineObjsFirstNameEnd.OrderBy(x => x.FirstName)"
+                TextFieldName="@nameof(DomainObject1.FirstName)"
+                @bind-Value="@SelectedFirstNameEnd"
+                AllowUserInput=false
+                CssClass="cw-480"                
+                ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Never" />
+                
+    
+</div>
+
 
 <br />
 
@@ -48,7 +79,81 @@
     </Columns>
 </DxGrid>
 
+
+<DxPopup
+    CssClass="popup-demo-events"
+    @bind-Visible="@EulaVisibleSimulation"
+    ShowFooter="true"
+    CloseOnEscape="false"
+    CloseOnOutsideClick="false"
+    ShowCloseButton="false"
+    HeaderText="DevExpress EULA"
+    
+    Closed="EulaPopupClosed"
+   >
+    <BodyContentTemplate>
+        <p> @countdata élements simulés </p>
+    </BodyContentTemplate>
+    <FooterContentTemplate Context="Context">
+        <div class="popup-demo-events-footer">
+            
+            <DxButton CssClass="popup-demo-events-button ms-2" RenderStyle="ButtonRenderStyle.Primary" Text="Ok" Click="@(_ => {EulaVisibleCreationAsk = true;CancelEulaClickSimulation();})" />
+            
+            
+        </div>
+    </FooterContentTemplate>
+</DxPopup>
+
+
+<DxPopup CssClass="popup-demo-events"
+@bind-Visible="@EulaVisibleCreationAsk"
+         ShowFooter="true"
+         CloseOnEscape="false"
+         CloseOnOutsideClick="false"
+         ShowCloseButton="false"
+         HeaderText="DevExpress EULA"
+         Closed="EulaPopupClosed">
+    <BodyContentTemplate>
+        <p> Voulez-vous créer les @countdata élements simulés ? </p>
+    </BodyContentTemplate>
+    <FooterContentTemplate Context="Context">
+        <div class="popup-demo-events-footer">
+
+            
+            <DxButton CssClass="popup-demo-events-button ms-2" RenderStyle="ButtonRenderStyle.Primary" Text="Créer" Click="@(_ => {OnButtonClickCreation();creerEnable = false;CancelEulaClickCreationAsk();EulaVisibleCreationConfirm = true;})" />
+            <DxButton CssClass="popup-demo-events-button ms-2" RenderStyle="ButtonRenderStyle.Secondary" Text="Annuler" Click="@(_ => {CancelEulaClickCreationAsk();})" />
+
+        </div>
+    </FooterContentTemplate>
+</DxPopup>
+
+<DxPopup CssClass="popup-demo-events"
+@bind-Visible="@EulaVisibleCreationConfirm"
+         ShowFooter="true"
+         CloseOnEscape="false"
+         CloseOnOutsideClick="false"
+         ShowCloseButton="false"
+         HeaderText="DevExpress EULA"
+         Closed="EulaPopupClosed">
+    <BodyContentTemplate>
+        <p> @countdata élements créés avec succès. </p>
+    </BodyContentTemplate>
+    <FooterContentTemplate Context="Context">
+        <div class="popup-demo-events-footer">
+
+            <DxButton CssClass="popup-demo-events-button ms-2" RenderStyle="ButtonRenderStyle.Primary" Text="Ok" Click="@(_ => {CancelEulaClickCreationConfirm();})" />
+
+
+        </div>
+    </FooterContentTemplate>
+</DxPopup>
+
+
 @code {
+    
+
+    bool simEnable = false;
+    bool creerEnable = false;
     ButtonRenderStyle btnStyles;
     GridSearchTextParseMode CurrentSearchTextParseMode { get; set; } = GridSearchTextParseMode.GroupWordsByAnd;
 
@@ -57,54 +162,143 @@
     public DomainObject1 SelectedFullName { get; set; }
 
     [ParameterAttribute]
+    //[EditorRequired]
     public IEnumerable<Classe> DomaineObjsClassName { get; set; }
     public Classe SelectedClassName { get; set; }
 
     [ParameterAttribute]
+    //[EditorRequired]
+    public IEnumerable<DomainObject1> DomaineObjsFirstNameStart { get; set; }
+    public DomainObject1 SelectedFirstNameStart { get; set; }
+
+    [ParameterAttribute]
+    //[EditorRequired]
+    public IEnumerable<DomainObject1> DomaineObjsFirstNameEnd { get; set; }
+    public DomainObject1 SelectedFirstNameEnd { get; set; }
+
+    [ParameterAttribute]
     public object Data { get; set; }
+
+    int countdata { get; set; } 
 
     [ParameterAttribute]
     public IObjectSpace objectSpaceDomainObjects { get; set; }
 
+    //start pupop stuff
+    bool EulaAccepted { get; set; }
+    bool EulaVisibleSimulation { get; set; }
+    bool EulaVisibleCreationAsk { get; set; }
+    bool EulaVisibleCreationConfirm { get; set; }
 
+    bool SkipEulaCheck { get; set; }
+
+    
+    
+
+    void CancelEulaClickSimulation()
+    {
+        SkipEulaCheck = true;
+
+        EulaVisibleSimulation = false;
+    }
+    void CancelEulaClickCreationAsk ()
+    {
+        SkipEulaCheck = true;
+
+        EulaVisibleCreationAsk = false;
+    }
+    void CancelEulaClickCreationConfirm()
+    {
+        SkipEulaCheck = true;
+
+        EulaVisibleCreationConfirm = false;
+    }
+    void EulaPopupClosed()
+    {
+        EulaAccepted = false;
+        SkipEulaCheck = false;
+    }
+
+
+    //end popup stuff
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        SelectedFullName = DomaineObjsFullName?.FirstOrDefault();
-        SelectedClassName = DomaineObjsClassName?.FirstOrDefault();
+        SelectedFullName = DomaineObjsFullName ? .OrderBy(x => x.FullName).FirstOrDefault();
+        SelectedClassName = DomaineObjsClassName?.OrderBy(x => x.ClassName).FirstOrDefault();
+        SelectedFirstNameStart = DomaineObjsFirstNameStart?.OrderBy(x => x.FirstName).FirstOrDefault();
+        SelectedFirstNameEnd = DomaineObjsFirstNameEnd?.OrderBy(x => x.FirstName).FirstOrDefault();
         btnStyles = ButtonRenderStyle.Primary;
+        ListenerLookUp();
     }
 
-    void OnButtonClick()
+    void OnButtonClickSimulation()
     {
+        //if (!String.IsNullOrEmpty(SelectedFirstNameStart?.FirstName) && !String.IsNullOrEmpty(SelectedFirstNameEnd?.FirstName) && !String.IsNullOrEmpty(SelectedClassName?.ClassName))
 
-        string FullName = this.SelectedFullName?.FullName;
+        List<DomainObject1> reslt = objectSpaceDomainObjects.GetObjects<DomainObject1>()
+        .Where(x => string.Compare(x.FirstName, SelectedFirstNameStart.FirstName) >= 0 && string.Compare(x.FirstName, SelectedFirstNameEnd.FirstName) <= 0)?.ToList();
 
+        reslt?.ForEach(x => x.Classe = SelectedClassName);
+        Data = reslt;
+        countdata = reslt.Count();
+        creerEnable = true;
+
+
+
+    }
+
+    void OnButtonClickCreation()
+    {
+        OnButtonClickSimulation();
+        objectSpaceDomainObjects.CommitChanges();
+    }
+
+    void ListenerLookUp()
+    {
+        if ((SelectedFirstNameStart != null) && (SelectedFirstNameEnd != null ) && (SelectedClassName  != null))
+        {
+            simEnable = true;
+        }
+        else
+            simEnable = false;
+
+    }
+    
+
+
+    //filtrer avec deux champs exemple nom et prenom
+    /*void filtreDeuxChamps()
+        {
+        string FirstNameStart = this.SelectedFirstNameStart?.FirstName;
+        string FirstNameEnd = this.SelectedFirstNameEnd?.FirstName;
 
         CriteriaOperator personClassCriteria = null;
 
-        if (!string.IsNullOrEmpty(FullName))
-        {
-            personClassCriteria = new BinaryOperator(nameof(DomainObject1.FullName), FullName, BinaryOperatorType.Equal);
-        }
+        if ((!string.IsNullOrEmpty(FirstNameStart)) && (!string.IsNullOrEmpty(FirstNameEnd)))
+            {
+            personClassCriteria = new BinaryOperator(nameof(DomainObject1.FirstName), FirstNameStart, BinaryOperatorType.Equal);
+            CriteriaOperator EndPlageCriteria = new BinaryOperator(nameof(DomainObject1.FirstName), FirstNameEnd, BinaryOperatorType.Equal);
+            personClassCriteria &= EndPlageCriteria;
+            }
 
-        if (SelectedClassName != null)
-        {
+            if (SelectedClassName != null)
+            {
             CriteriaOperator classNameCriteria = new BinaryOperator(nameof(DomainObject1.Classe), SelectedClassName, BinaryOperatorType.Equal);
 
-            if (personClassCriteria is null)
-            {
+                if (personClassCriteria is null)
+                {
                 personClassCriteria = classNameCriteria;
-            }
-            else
-            {
+                }
+                else
+                {
                 personClassCriteria &= classNameCriteria;
             }
         }
 
 
-        
-            Data = objectSpaceDomainObjects.GetObjects<DomainObject1>(personClassCriteria).ToList();
-    }
+
+        Data = objectSpaceDomainObjects.GetObjects<DomainObject1>(personClassCriteria).ToList();
+}*/
 }

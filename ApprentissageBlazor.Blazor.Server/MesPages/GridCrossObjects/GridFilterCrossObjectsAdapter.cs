@@ -21,22 +21,25 @@ namespace ApprentissageBlazor.Blazor.Server.MesPages.GridCrossObjects
 
 
                     IList<DomainObject1> objectToShowFullName = ObjSpace.GetObjects<DomainObject1>();
-
-
-
                     IEnumerable<DomainObject1> domainObjectsFullName = objectToShowFullName.AsEnumerable();
 
                     IList<Classe> objectToShowClassName = ObjSpace.GetObjects<Classe>();
-
                     IEnumerable<Classe> domainObjectClassName = objectToShowClassName.AsEnumerable();
 
-                    //ObjSpace.CommitChanges();
+                    IList<DomainObject1> objectToShowFirstNameStart = ObjSpace.GetObjects<DomainObject1>();
+                    IEnumerable<DomainObject1> domainObjectsFirstNameStart = objectToShowFirstNameStart.AsEnumerable();
 
+                    IList<DomainObject1> objectToShowFirstNameEnd = ObjSpace.GetObjects<DomainObject1>();
+                    IEnumerable<DomainObject1> domainObjectsFirstNameEnd = objectToShowFirstNameStart.AsEnumerable();
+
+                     
                     component = builder => {
                         builder.OpenComponent<GridFilterCrossObjects>(0);
                         builder.AddAttribute(1, nameof(GridFilterCrossObjects.DomaineObjsFullName), domainObjectsFullName);
                         builder.AddAttribute(2, nameof(GridFilterCrossObjects.DomaineObjsClassName), domainObjectClassName);
-                        builder.AddAttribute(3, nameof(GridFilterCrossObjects.objectSpaceDomainObjects), ObjSpace);
+                        builder.AddAttribute(3, nameof(GridFilterCrossObjects.DomaineObjsFirstNameStart), domainObjectsFirstNameStart);
+                        builder.AddAttribute(3, nameof(GridFilterCrossObjects.DomaineObjsFirstNameEnd), domainObjectsFirstNameEnd);
+                        builder.AddAttribute(4, nameof(GridFilterCrossObjects.objectSpaceDomainObjects), ObjSpace);
 
                         builder.CloseComponent();
                     };
