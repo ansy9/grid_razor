@@ -11,7 +11,26 @@
 
 <br />
 
-<div class="container__simulation">
+<div class="container__simulation ">
+
+    <div class="d-flex flex-row cw-480 justify-content-end">
+        <div class="me-2 mb-2 align-self-center">
+            <DxButton RenderStyle="@btnStyles"
+                      Text="Simuler"
+                      CssClass="w-100"
+                      Enabled=@simEnable
+                      Click="@(_ => {OnButtonClickSimulation();EulaVisibleSimulation = true;})" />
+        </div>
+
+        <div class="me-2 mb-2 align-self-center">
+            <DxButton RenderStyle="@btnStyles"
+                      Text="Créer"
+                      CssClass="w-100"
+                      Enabled=@creerEnable
+                      Click="@(_ => {OnButtonClickCreation();EulaVisibleCreationAsk = true;})" />
+        </div>
+    </div>
+
     <div class="d-flex flex-row cw-480">
         <DxComboBox Data="@DomaineObjsFullName"
                     TextFieldName="@nameof(DomainObject1.FullName)"
@@ -47,24 +66,8 @@
 
 
     </div>
-
-    <div class="d-flex flex-row cw-480">
-        <div class="me-2 mb-2 ">
-            <DxButton RenderStyle="@btnStyles"
-                      Text="Simuler"
-                      CssClass="w-100"
-                      Enabled=@simEnable
-                      Click="@(_ => {OnButtonClickSimulation();EulaVisibleSimulation = true;})" />
-        </div>
-
-        <div class="me-2 mb-2 ">
-            <DxButton RenderStyle="@btnStyles"
-                      Text="Créer"
-                      CssClass="w-100"
-                      Enabled=@creerEnable
-                      Click="@(_ => {OnButtonClickCreation();EulaVisibleCreationAsk = true;})" />
-        </div>
-    </div>
+         
+    
 </div>
 
 
